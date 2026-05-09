@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Learning Games</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="screen active">
+            <h1 class="title-rainbow">🎮 Fun Learning Games 🎮</h1>
+            <div class="mascot">🐻</div>
+            <p class="subtitle">Let's Play and Learn Together!</p>
+            <button class="btn-primary" onclick="showGameMenu()">START ADVENTURE!</button>
+        </div>
+
+        <!-- Game Menu Screen -->
+        <div id="gameMenuScreen" class="screen">
+            <h1 class="title-white">Choose Your Game!</h1>
+            <div class="game-grid">
+                <div class="game-card" onclick="startGame('math')">
+                    <div class="game-icon">➕</div>
+                    <h3>Math Adventure</h3>
+                </div>
+                <div class="game-card" onclick="startGame('word')">
+                    <div class="game-icon">📝</div>
+                    <h3>Word Builder</h3>
+                </div>
+                <div class="game-card" onclick="startGame('science')">
+                    <div class="game-icon">🔬</div>
+                    <h3>Science Explorer</h3>
+                </div>
+                <div class="game-card" onclick="startGame('memory')">
+                    <div class="game-icon">🧠</div>
+                    <h3>Memory Match</h3>
+                </div>
+                <div class="game-card" onclick="startGame('puzzle')">
+                    <div class="game-icon">🧩</div>
+                    <h3>Puzzle World</h3>
+                </div>
+                <div class="game-card" onclick="startGame('quiz')">
+                    <div class="game-icon">🏁</div>
+                    <h3>Quiz Race</h3>
+                </div>
+            </div>
+            <button class="btn-back" onclick="showWelcome()">← Back</button>
+        </div>
+
+        <!-- Game Play Screen -->
+        <div id="gameScreen" class="screen">
+            <div class="game-header">
+                <h2 id="gameTitle">Game</h2>
+                <div class="game-stats">
+                    <span id="score">⭐ 0</span>
+                    <span id="level">Level 1</span>
+                </div>
+                <button class="btn-quit" onclick="quitGame()">✕</button>
+            </div>
+            <div id="gameArea" class="game-area"></div>
+            <div id="character" class="character">🐻</div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="resultScreen" class="screen">
+            <div class="result-character">🎉</div>
+            <h1 id="resultTitle">Amazing!</h1>
+            <div id="stars" class="stars"></div>
+            <div class="result-box">
+                <p id="resultScore">Score: 0</p>
+                <p id="resultMessage">You did great!</p>
+            </div>
+            <div class="learning-box">
+                <h3>What You Learned:</h3>
+                <p id="learningMessage"></p>
+            </div>
+            <div class="result-buttons">
+                <button class="btn-primary" onclick="nextLevel()">Next Level →</button>
+                <button class="btn-secondary" onclick="showGameMenu()">Game Menu</button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
