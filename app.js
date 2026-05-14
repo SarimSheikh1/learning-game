@@ -3,6 +3,12 @@ let currentGame = null;
 let score = 0;
 let level = 1;
 let currentQuestion = null;
+let usedQuestions = {
+    word: [],
+    science: [],
+    puzzle: [],
+    quiz: []
+};
 
 // Screen Management
 function showScreen(screenId) {
@@ -26,6 +32,12 @@ function resetGame() {
     level = 1;
     currentGame = null;
     currentQuestion = null;
+    usedQuestions = {
+        word: [],
+        science: [],
+        puzzle: [],
+        quiz: []
+    };
 }
 
 // Start Game
@@ -137,7 +149,20 @@ function loadWordQuestion() {
         { word: 'MOON', emoji: '🌙', hint: 'Glows at night' }
     ];
     
-    const wordData = words[Math.floor(Math.random() * words.length)];
+    // Reset if all questions used
+    if (usedQuestions.word.length >= words.length) {
+        usedQuestions.word = [];
+    }
+    
+    // Get unused questions
+    const availableWords = words.filter((_, index) => !usedQuestions.word.includes(index));
+    const randomIndex = Math.floor(Math.random() * availableWords.length);
+    const wordData = availableWords[randomIndex];
+    
+    // Mark as used
+    const originalIndex = words.indexOf(wordData);
+    usedQuestions.word.push(originalIndex);
+    
     currentQuestion = { answer: wordData.word };
     
     const letters = wordData.word.split('');
@@ -345,29 +370,29 @@ function loadQuizQuestion() {
 function checkAnswer(userAnswer, correctAnswer) {
     const isCorrect = String(userAnswer) === String(correctAnswer);
     
+    const buttons = document.querySelectorAll('.option-btn, .pattern-btn');
+    buttons.forEach(btn => btn.disabled = true);
+    
     if (isCorrect) {
         score += 10 * level;
         updateStats();
         celebrateCharacter();
         
-        const buttons = document.querySelectorAll('.option-btn, .pattern-btn');
-        buttons.forEach(btn => {
-            if (btn.textContent === String(correctAnswer) || btn.onclick?.toString().includes(String(correctAnswer))) {
-                btn.classList.add('correct');
-            }
-            btn.disabled = true;
-        });
+        // Only highlight the clicked correct button
+        event.target.classList.add('correct');
         
         setTimeout(() => showResult(true), 1500);
     } else {
         sadCharacter();
         
-        const buttons = document.querySelectorAll('.option-btn, .pattern-btn');
+        // Show wrong answer in red
+        event.target.classList.add('wrong');
+        
+        // Show correct answer in green
         buttons.forEach(btn => {
-            if (btn.textContent === String(userAnswer)) {
-                btn.classList.add('wrong');
+            if (btn.textContent === String(correctAnswer)) {
+                btn.classList.add('correct');
             }
-            btn.disabled = true;
         });
         
         setTimeout(() => showResult(false), 1500);
