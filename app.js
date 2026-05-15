@@ -146,7 +146,19 @@ function loadWordQuestion() {
         { word: 'FISH', emoji: '🐠', hint: 'Swims in water' },
         { word: 'BIRD', emoji: '🐦', hint: 'Flies in the sky' },
         { word: 'STAR', emoji: '⭐', hint: 'Shines at night' },
-        { word: 'MOON', emoji: '🌙', hint: 'Glows at night' }
+        { word: 'MOON', emoji: '🌙', hint: 'Glows at night' },
+        { word: 'FROG', emoji: '🐸', hint: 'Green animal that hops' },
+        { word: 'BEAR', emoji: '🐻', hint: 'Big furry animal' },
+        { word: 'LION', emoji: '🦁', hint: 'King of the jungle' },
+        { word: 'DUCK', emoji: '🦆', hint: 'Swims and says quack' },
+        { word: 'ROSE', emoji: '🌹', hint: 'Beautiful flower' },
+        { word: 'CAKE', emoji: '🎂', hint: 'Sweet birthday treat' },
+        { word: 'BOOK', emoji: '📚', hint: 'We read this' },
+        { word: 'BALL', emoji: '⚽', hint: 'Round toy to play with' },
+        { word: 'RAIN', emoji: '🌧️', hint: 'Water falling from sky' },
+        { word: 'SNOW', emoji: '❄️', hint: 'White and cold' },
+        { word: 'FIRE', emoji: '🔥', hint: 'Hot and bright' },
+        { word: 'LEAF', emoji: '🍃', hint: 'Green part of tree' }
     ];
     
     // Reset if all questions used
@@ -221,10 +233,33 @@ function loadScienceQuestion() {
         { q: 'What do we breathe?', options: ['Air', 'Water', 'Fire', 'Sand'], answer: 'Air', fact: 'Air contains oxygen that our body needs!' },
         { q: 'What makes rain?', options: ['Clouds', 'Trees', 'Cars', 'Houses'], answer: 'Clouds', fact: 'Water vapor in clouds turns into rain drops!' },
         { q: 'What is the hottest?', options: ['Sun', 'Ice', 'Snow', 'Water'], answer: 'Sun', fact: 'The Sun is a giant ball of hot gas!' },
-        { q: 'What helps us see?', options: ['Eyes', 'Ears', 'Nose', 'Mouth'], answer: 'Eyes', fact: 'Our eyes detect light and send signals to our brain!' }
+        { q: 'What helps us see?', options: ['Eyes', 'Ears', 'Nose', 'Mouth'], answer: 'Eyes', fact: 'Our eyes detect light and send signals to our brain!' },
+        { q: 'What do fish use to breathe?', options: ['Gills', 'Lungs', 'Nose', 'Mouth'], answer: 'Gills', fact: 'Fish have gills that take oxygen from water!' },
+        { q: 'What season comes after winter?', options: ['Spring', 'Summer', 'Fall', 'Winter'], answer: 'Spring', fact: 'Spring brings flowers and warmer weather!' },
+        { q: 'What do bees collect from flowers?', options: ['Nectar', 'Water', 'Leaves', 'Dirt'], answer: 'Nectar', fact: 'Bees collect nectar to make honey!' },
+        { q: 'What is frozen water called?', options: ['Ice', 'Steam', 'Fog', 'Dew'], answer: 'Ice', fact: 'Water freezes into ice at 0°C!' },
+        { q: 'What gives us light at night?', options: ['Moon', 'Sun', 'Trees', 'Clouds'], answer: 'Moon', fact: 'The Moon reflects sunlight to shine at night!' },
+        { q: 'What do birds use to fly?', options: ['Wings', 'Legs', 'Tail', 'Beak'], answer: 'Wings', fact: 'Birds flap their wings to fly through the air!' },
+        { q: 'What color are most leaves?', options: ['Green', 'Blue', 'Red', 'Yellow'], answer: 'Green', fact: 'Leaves are green because of chlorophyll!' },
+        { q: 'What do we use to hear?', options: ['Ears', 'Eyes', 'Nose', 'Hands'], answer: 'Ears', fact: 'Our ears detect sound waves in the air!' },
+        { q: 'What planet do we live on?', options: ['Earth', 'Mars', 'Moon', 'Sun'], answer: 'Earth', fact: 'Earth is the only planet with life we know!' },
+        { q: 'What makes thunder sound?', options: ['Lightning', 'Wind', 'Rain', 'Clouds'], answer: 'Lightning', fact: 'Lightning heats air so fast it makes thunder!' }
     ];
     
-    const q = questions[Math.floor(Math.random() * questions.length)];
+    // Reset if all questions used
+    if (usedQuestions.science.length >= questions.length) {
+        usedQuestions.science = [];
+    }
+    
+    // Get unused questions
+    const availableQuestions = questions.filter((_, index) => !usedQuestions.science.includes(index));
+    const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+    const q = availableQuestions[randomIndex];
+    
+    // Mark as used
+    const originalIndex = questions.indexOf(q);
+    usedQuestions.science.push(originalIndex);
+    
     currentQuestion = { answer: q.answer, fact: q.fact };
     
     const html = `
@@ -315,10 +350,29 @@ function loadPuzzleQuestion() {
         { sequence: ['🔴', '🔵', '🔴', '🔵'], answer: '🔴', options: ['🔴', '🔵', '🟢'] },
         { sequence: ['⭐', '⭐', '🌙', '⭐', '⭐'], answer: '🌙', options: ['⭐', '🌙', '☀️'] },
         { sequence: ['🍎', '🍌', '🍎', '🍌'], answer: '🍎', options: ['🍎', '🍌', '🍇'] },
-        { sequence: ['🐶', '🐱', '🐶', '🐱'], answer: '🐶', options: ['🐶', '🐱', '🐭'] }
+        { sequence: ['🐶', '🐱', '🐶', '🐱'], answer: '🐶', options: ['🐶', '🐱', '🐭'] },
+        { sequence: ['🌸', '🌺', '🌸', '🌺'], answer: '🌸', options: ['🌸', '🌺', '🌻'] },
+        { sequence: ['🚗', '🚙', '🚗', '🚙'], answer: '🚗', options: ['🚗', '🚙', '🚕'] },
+        { sequence: ['🎈', '🎈', '🎁', '🎈', '🎈'], answer: '🎁', options: ['🎈', '🎁', '🎀'] },
+        { sequence: ['🍕', '🍔', '🍕', '🍔'], answer: '🍕', options: ['🍕', '🍔', '🌭'] },
+        { sequence: ['⚽', '🏀', '⚽', '🏀'], answer: '⚽', options: ['⚽', '🏀', '🎾'] },
+        { sequence: ['🎵', '🎶', '🎵', '🎶'], answer: '🎵', options: ['🎵', '🎶', '🎸'] }
     ];
     
-    const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+    // Reset if all questions used
+    if (usedQuestions.puzzle.length >= patterns.length) {
+        usedQuestions.puzzle = [];
+    }
+    
+    // Get unused questions
+    const availablePatterns = patterns.filter((_, index) => !usedQuestions.puzzle.includes(index));
+    const randomIndex = Math.floor(Math.random() * availablePatterns.length);
+    const pattern = availablePatterns[randomIndex];
+    
+    // Mark as used
+    const originalIndex = patterns.indexOf(pattern);
+    usedQuestions.puzzle.push(originalIndex);
+    
     currentQuestion = { answer: pattern.answer };
     
     const html = `
@@ -345,10 +399,34 @@ function loadQuizQuestion() {
         { q: 'How many legs does a spider have?', options: ['8', '6', '4', '10'], answer: '8', fact: 'Spiders are arachnids with 8 legs!' },
         { q: 'What color is the sky?', options: ['Blue', 'Green', 'Red', 'Yellow'], answer: 'Blue', fact: 'The sky appears blue because of how sunlight scatters!' },
         { q: 'How many days in a week?', options: ['7', '5', '6', '8'], answer: '7', fact: 'A week has 7 days: Monday through Sunday!' },
-        { q: 'What do bees make?', options: ['Honey', 'Milk', 'Juice', 'Water'], answer: 'Honey', fact: 'Bees collect nectar and turn it into honey!' }
+        { q: 'What do bees make?', options: ['Honey', 'Milk', 'Juice', 'Water'], answer: 'Honey', fact: 'Bees collect nectar and turn it into honey!' },
+        { q: 'How many wheels does a bicycle have?', options: ['2', '3', '4', '1'], answer: '2', fact: 'Bicycles have 2 wheels for balance!' },
+        { q: 'What shape is a ball?', options: ['Circle', 'Square', 'Triangle', 'Star'], answer: 'Circle', fact: 'A ball is round like a circle or sphere!' },
+        { q: 'How many fingers on one hand?', options: ['5', '4', '6', '10'], answer: '5', fact: 'Each hand has 5 fingers including the thumb!' },
+        { q: 'What animal says "moo"?', options: ['Cow', 'Dog', 'Cat', 'Pig'], answer: 'Cow', fact: 'Cows say moo and give us milk!' },
+        { q: 'What do we drink to stay healthy?', options: ['Water', 'Soda', 'Coffee', 'Juice'], answer: 'Water', fact: 'Water keeps our body hydrated and healthy!' },
+        { q: 'How many colors in a rainbow?', options: ['7', '5', '6', '8'], answer: '7', fact: 'Rainbow has 7 colors: red, orange, yellow, green, blue, indigo, violet!' },
+        { q: 'What season is the coldest?', options: ['Winter', 'Summer', 'Spring', 'Fall'], answer: 'Winter', fact: 'Winter is cold with snow and ice!' },
+        { q: 'What do caterpillars turn into?', options: ['Butterfly', 'Bird', 'Bee', 'Spider'], answer: 'Butterfly', fact: 'Caterpillars transform into beautiful butterflies!' },
+        { q: 'How many sides does a triangle have?', options: ['3', '4', '5', '6'], answer: '3', fact: 'A triangle has 3 sides and 3 corners!' },
+        { q: 'What do we use to write?', options: ['Pencil', 'Spoon', 'Shoe', 'Hat'], answer: 'Pencil', fact: 'Pencils help us write and draw!' },
+        { q: 'What fruit is yellow and curved?', options: ['Banana', 'Apple', 'Orange', 'Grape'], answer: 'Banana', fact: 'Bananas are yellow, curved, and full of energy!' }
     ];
     
-    const quiz = quizzes[Math.floor(Math.random() * quizzes.length)];
+    // Reset if all questions used
+    if (usedQuestions.quiz.length >= quizzes.length) {
+        usedQuestions.quiz = [];
+    }
+    
+    // Get unused questions
+    const availableQuizzes = quizzes.filter((_, index) => !usedQuestions.quiz.includes(index));
+    const randomIndex = Math.floor(Math.random() * availableQuizzes.length);
+    const quiz = availableQuizzes[randomIndex];
+    
+    // Mark as used
+    const originalIndex = quizzes.indexOf(quiz);
+    usedQuestions.quiz.push(originalIndex);
+    
     currentQuestion = { answer: quiz.answer, fact: quiz.fact };
     
     const html = `
