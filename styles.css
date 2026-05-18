@@ -45,6 +45,38 @@ body {
 }
 
 /* Welcome Screen */
+.language-selector {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    background: rgba(255,255,255,0.2);
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.lang-btn {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    background: rgba(255,255,255,0.3);
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.lang-btn:hover {
+    background: rgba(255,255,255,0.5);
+    transform: scale(1.05);
+}
+
+.lang-btn.active {
+    background: white;
+    color: #667eea;
+    border-color: white;
+}
+
 .title-rainbow {
     font-size: 3em;
     color: white;
