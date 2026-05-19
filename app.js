@@ -3,12 +3,125 @@ let currentGame = null;
 let score = 0;
 let level = 1;
 let currentQuestion = null;
+let currentLanguage = 'english';
 let usedQuestions = {
     word: [],
     science: [],
     puzzle: [],
     quiz: []
 };
+
+// Language Data
+const translations = {
+    english: {
+        welcomeTitle: '🎮 Fun Learning Games 🎮',
+        welcomeSubtitle: "Let's Play and Learn Together!",
+        startButton: 'START ADVENTURE!',
+        chooseGame: 'Choose Your Game!',
+        mathGame: 'Math Adventure',
+        wordGame: 'Word Builder',
+        scienceGame: 'Science Explorer',
+        memoryGame: 'Memory Match',
+        puzzleGame: 'Puzzle World',
+        quizGame: 'Quiz Race',
+        backButton: '← Back',
+        score: '⭐',
+        level: 'Level',
+        amazing: 'Amazing!',
+        goodTry: 'Good Try!',
+        youGotIt: 'You got it right!',
+        keepPracticing: 'Keep practicing!',
+        whatYouLearned: 'What You Learned:',
+        nextLevel: 'Next Level →',
+        gameMenu: 'Game Menu'
+    },
+    urdu: {
+        welcomeTitle: '🎮 تعلیمی کھیل 🎮',
+        welcomeSubtitle: 'آؤ کھیلیں اور سیکھیں!',
+        startButton: 'شروع کریں!',
+        chooseGame: 'اپنا کھیل منتخب کریں!',
+        mathGame: 'ریاضی کا کھیل',
+        wordGame: 'الفاظ بنائیں',
+        scienceGame: 'سائنس کی دنیا',
+        memoryGame: 'یادداشت کا کھیل',
+        puzzleGame: 'پہیلی کی دنیا',
+        quizGame: 'کوئز ریس',
+        backButton: '→ واپس',
+        score: '⭐',
+        level: 'لیول',
+        amazing: 'شاندار!',
+        goodTry: 'اچھی کوشش!',
+        youGotIt: 'آپ نے صحیح جواب دیا!',
+        keepPracticing: 'مشق جاری رکھیں!',
+        whatYouLearned: 'آپ نے کیا سیکھا:',
+        nextLevel: 'اگلا لیول →',
+        gameMenu: 'کھیل مینو'
+    },
+    roman: {
+        welcomeTitle: '🎮 Talimi Khel 🎮',
+        welcomeSubtitle: 'Aao Khelen Aur Seekhen!',
+        startButton: 'SHURU KAREIN!',
+        chooseGame: 'Apna Khel Muntakhib Karein!',
+        mathGame: 'Riyazi Ka Khel',
+        wordGame: 'Alfaz Banayein',
+        scienceGame: 'Science Ki Duniya',
+        memoryGame: 'Yadasht Ka Khel',
+        puzzleGame: 'Paheli Ki Duniya',
+        quizGame: 'Quiz Race',
+        backButton: '← Wapas',
+        score: '⭐',
+        level: 'Level',
+        amazing: 'Shandar!',
+        goodTry: 'Achi Koshish!',
+        youGotIt: 'Aap ne sahi jawab diya!',
+        keepPracticing: 'Mashq jari rakhein!',
+        whatYouLearned: 'Aap ne kya seekha:',
+        nextLevel: 'Agla Level →',
+        gameMenu: 'Khel Menu'
+    }
+};
+
+function changeLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    updateLanguageUI();
+}
+
+function updateLanguageUI() {
+    const t = translations[currentLanguage];
+    
+    // Update welcome screen
+    const welcomeTitle = document.querySelector('#welcomeScreen .title-rainbow');
+    const welcomeSubtitle = document.querySelector('#welcomeScreen .subtitle');
+    const startBtn = document.querySelector('#welcomeScreen .btn-primary');
+    
+    if (welcomeTitle) welcomeTitle.textContent = t.welcomeTitle;
+    if (welcomeSubtitle) welcomeSubtitle.textContent = t.welcomeSubtitle;
+    if (startBtn) startBtn.textContent = t.startButton;
+    
+    // Update game menu
+    const menuTitle = document.querySelector('#gameMenuScreen .title-white');
+    if (menuTitle) menuTitle.textContent = t.chooseGame;
+    
+    const gameCards = document.querySelectorAll('.game-card h3');
+    if (gameCards.length >= 6) {
+        gameCards[0].textContent = t.mathGame;
+        gameCards[1].textContent = t.wordGame;
+        gameCards[2].textContent = t.scienceGame;
+        gameCards[3].textContent = t.memoryGame;
+        gameCards[4].textContent = t.puzzleGame;
+        gameCards[5].textContent = t.quizGame;
+    }
+    
+    const backBtn = document.querySelector('#gameMenuScreen .btn-back');
+    if (backBtn) backBtn.textContent = t.backButton;
+}
 
 // Screen Management
 function showScreen(screenId) {
@@ -21,10 +134,12 @@ function showScreen(screenId) {
 function showWelcome() {
     showScreen('welcomeScreen');
     resetGame();
+    updateLanguageUI();
 }
 
 function showGameMenu() {
     showScreen('gameMenuScreen');
+    updateLanguageUI();
 }
 
 function resetGame() {
@@ -561,4 +676,5 @@ function generateOptions(correctAnswer, count) {
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     showWelcome();
+    updateLanguageUI();
 });
