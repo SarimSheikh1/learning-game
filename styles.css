@@ -9,6 +9,32 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     overflow: hidden;
+    transition: background 0.5s ease;
+}
+
+/* Theme Classes */
+body.theme-purple {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+body.theme-ocean {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+body.theme-sunset {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+body.theme-forest {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+}
+
+body.theme-candy {
+    background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+}
+
+body.theme-galaxy {
+    background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
 }
 
 #app {
@@ -75,6 +101,37 @@ body {
     background: white;
     color: #667eea;
     border-color: white;
+}
+
+.theme-selector {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.theme-btn {
+    width: 60px;
+    height: 60px;
+    border: 4px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.theme-btn:hover {
+    transform: scale(1.2) rotate(10deg);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.theme-btn:active {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .title-rainbow {
@@ -683,6 +740,17 @@ body {
 @media (max-width: 768px) {
     body {
         overflow-x: hidden;
+    }
+
+    .theme-selector {
+        margin: 15px 0;
+    }
+
+    .theme-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5em;
+        border-width: 3px;
     }
 
     .language-selector {
