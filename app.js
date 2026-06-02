@@ -4,12 +4,20 @@ let score = 0;
 let level = 1;
 let currentQuestion = null;
 let currentLanguage = 'english';
+let currentTheme = 'purple';
 let usedQuestions = {
     word: [],
     science: [],
     puzzle: [],
     quiz: []
 };
+
+// Theme Function
+function changeTheme(theme) {
+    currentTheme = theme;
+    document.body.className = `theme-${theme}`;
+    localStorage.setItem('gameTheme', theme);
+}
 
 // Language Data
 const translations = {
@@ -675,6 +683,10 @@ function generateOptions(correctAnswer, count) {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    // Load saved theme
+    const savedTheme = localStorage.getItem('gameTheme') || 'purple';
+    changeTheme(savedTheme);
+    
     showWelcome();
     updateLanguageUI();
 });
