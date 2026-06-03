@@ -32,6 +32,7 @@ const translations = {
         memoryGame: 'Memory Match',
         puzzleGame: 'Puzzle World',
         quizGame: 'Quiz Race',
+        fruitGame: 'Fruit Ninja',
         backButton: '← Back',
         score: '⭐',
         level: 'Level',
@@ -54,6 +55,7 @@ const translations = {
         memoryGame: 'یادداشت کا کھیل',
         puzzleGame: 'پہیلی کی دنیا',
         quizGame: 'کوئز ریس',
+        fruitGame: 'پھل کاٹیں',
         backButton: '→ واپس',
         score: '⭐',
         level: 'لیول',
@@ -76,6 +78,7 @@ const translations = {
         memoryGame: 'Yadasht Ka Khel',
         puzzleGame: 'Paheli Ki Duniya',
         quizGame: 'Quiz Race',
+        fruitGame: 'Phal Kaatein',
         backButton: '← Wapas',
         score: '⭐',
         level: 'Level',
@@ -118,13 +121,14 @@ function updateLanguageUI() {
     if (menuTitle) menuTitle.textContent = t.chooseGame;
     
     const gameCards = document.querySelectorAll('.game-card h3');
-    if (gameCards.length >= 6) {
+    if (gameCards.length >= 7) {
         gameCards[0].textContent = t.mathGame;
         gameCards[1].textContent = t.wordGame;
         gameCards[2].textContent = t.scienceGame;
         gameCards[3].textContent = t.memoryGame;
         gameCards[4].textContent = t.puzzleGame;
         gameCards[5].textContent = t.quizGame;
+        gameCards[6].textContent = t.fruitGame;
     }
     
     const backBtn = document.querySelector('#gameMenuScreen .btn-back');
@@ -176,7 +180,8 @@ function startGame(gameType) {
         science: '🔬 Science Explorer',
         memory: '🧠 Memory Match',
         puzzle: '🧩 Puzzle World',
-        quiz: '🏁 Quiz Race'
+        quiz: '🏁 Quiz Race',
+        fruit: '🍉 Fruit Ninja'
     };
     
     document.getElementById('gameTitle').textContent = titles[gameType];
@@ -212,6 +217,9 @@ function loadQuestion() {
             break;
         case 'quiz':
             loadQuizQuestion();
+            break;
+        case 'fruit':
+            loadFruitGame();
             break;
     }
 }
@@ -403,11 +411,14 @@ function loadScienceQuestion() {
 // Memory Game
 function loadMemoryGame() {
     const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
-    const gameEmojis = emojis.slice(0, 4 + level).concat(emojis.slice(0, 4 + level));
+    const pairCount = Math.min(6, 3 + Math.floor(level / 2));
+    const gameEmojis = emojis.slice(0, pairCount).concat(emojis.slice(0, pairCount));
     gameEmojis.sort(() => Math.random() - 0.5);
     
+    const gridCols = pairCount <= 3 ? 3 : 4;
+    
     const html = `
-        <div class="memory-grid" style="grid-template-columns: repeat(${Math.min(4, 2 + level)}, 1fr);">
+        <div class="memory-grid" style="grid-template-columns: repeat(${gridCols}, 1fr); max-width: ${gridCols * 130}px;">
             ${gameEmojis.map((emoji, i) => `
                 <div class="memory-card" data-emoji="${emoji}" data-index="${i}" onclick="flipCard(${i})">
                     <span style="display:none;">${emoji}</span>
@@ -449,6 +460,10 @@ function flipCard(index) {
                 cards[first].classList.add('matched');
                 cards[second].classList.add('matched');
                 window.memoryGame.matched.push(first, second);
+                
+                // Award points for each match
+                score += 10 * level;
+                updateStats();
                 celebrateCharacter();
                 
                 if (window.memoryGame.matched.length === cards.length) {
@@ -651,7 +666,8 @@ function showResult(isCorrect) {
         science: currentQuestion?.fact || 'Science helps us understand the world around us!',
         memory: 'Memory games help improve your concentration and focus!',
         puzzle: 'Patterns are everywhere in nature and help us predict what comes next!',
-        quiz: currentQuestion?.fact || 'Learning fun facts makes you smarter every day!'
+        quiz: currentQuestion?.fact || 'Learning fun facts makes you smarter every day!',
+        fruit: 'Quick reflexes and hand-eye coordination help in many activities!'
     };
     
     learningMessage.textContent = learningFacts[currentGame] || 'Great job learning something new!';
@@ -679,6 +695,227 @@ function generateOptions(correctAnswer, count) {
         }
     }
     return options.sort(() => Math.random() - 0.5);
+}
+
+// Fruit Ninja Game
+function loadFruitGame() {
+    const html = `
+        <div class="fruit-game-container">
+            <div class="fruit-timer">Time: <span id="fruitTimer">30</span>s</div>
+            <div class="fruit-target">Target: <span id="fruitTarget">10</span></div>
+            <div class="fruit-canvas" id="fruitCanvas"></div>
+            <div class="slice-trail" id="sliceTrail"></div>
+        </div>
+    `;
+    
+    document.getElementById('gameArea').innerHTML = html;
+    
+    const fruits = ['🍎', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍑', '🍒', '🥝'];
+    const bombs = ['💣'];
+    const target = 10 + (level * 5);
+    let sliced = 0;
+    let timeLeft = 30;
+    let gameActive = true;
+    
+    document.getElementById('fruitTarget').textContent = target;
+    
+    // Mouse trail effect
+    const canvas = document.getElementById('fruitCanvas');
+    const trail = document.getElementById('sliceTrail');
+    let isSlicing = false;
+    
+    canvas.addEventListener('mousedown', () => {
+        isSlicing = true;
+        trail.style.display = 'block';
+    });
+    
+    canvas.addEventListener('mouseup', () => {
+        isSlicing = false;
+        trail.style.display = 'none';
+    });
+    
+    canvas.addEventListener('mousemove', (e) => {
+        if (isSlicing) {
+            const rect = canvas.getBoundingClientRect();
+            trail.style.left = (e.clientX - rect.left) + 'px';
+            trail.style.top = (e.clientY - rect.top) + 'px';
+            
+            // Check collision with fruits
+            document.querySelectorAll('.fruit-item').forEach(fruit => {
+                const fruitRect = fruit.getBoundingClientRect();
+                const distance = Math.sqrt(
+                    Math.pow(e.clientX - (fruitRect.left + fruitRect.width / 2), 2) +
+                    Math.pow(e.clientY - (fruitRect.top + fruitRect.height / 2), 2)
+                );
+                
+                if (distance < 50 && !fruit.classList.contains('sliced')) {
+                    sliceFruit(fruit);
+                }
+            });
+        }
+    });
+    
+    // Touch support for mobile
+    canvas.addEventListener('touchstart', (e) => {
+        isSlicing = true;
+        trail.style.display = 'block';
+        e.preventDefault();
+    });
+    
+    canvas.addEventListener('touchend', () => {
+        isSlicing = false;
+        trail.style.display = 'none';
+    });
+    
+    canvas.addEventListener('touchmove', (e) => {
+        if (isSlicing) {
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            trail.style.left = (touch.clientX - rect.left) + 'px';
+            trail.style.top = (touch.clientY - rect.top) + 'px';
+            
+            // Check collision with fruits
+            document.querySelectorAll('.fruit-item').forEach(fruit => {
+                const fruitRect = fruit.getBoundingClientRect();
+                const distance = Math.sqrt(
+                    Math.pow(touch.clientX - (fruitRect.left + fruitRect.width / 2), 2) +
+                    Math.pow(touch.clientY - (fruitRect.top + fruitRect.height / 2), 2)
+                );
+                
+                if (distance < 50 && !fruit.classList.contains('sliced')) {
+                    sliceFruit(fruit);
+                }
+            });
+        }
+        e.preventDefault();
+    });
+    
+    function sliceFruit(fruit) {
+        if (!gameActive) return;
+        
+        fruit.classList.add('sliced');
+        
+        // Create slice effect
+        const sliceMark = document.createElement('div');
+        sliceMark.className = 'slice-mark';
+        sliceMark.style.left = fruit.style.left;
+        sliceMark.style.bottom = getComputedStyle(fruit).bottom;
+        
+        const sliceTypes = ['/', '\\', 'X', '—'];
+        sliceMark.textContent = sliceTypes[Math.floor(Math.random() * sliceTypes.length)];
+        
+        canvas.appendChild(sliceMark);
+        setTimeout(() => sliceMark.remove(), 500);
+        
+        // Create fruit pieces
+        if (fruit.dataset.type !== 'bomb') {
+            const piece1 = document.createElement('div');
+            const piece2 = document.createElement('div');
+            piece1.className = 'fruit-piece';
+            piece2.className = 'fruit-piece';
+            piece1.textContent = fruit.textContent;
+            piece2.textContent = fruit.textContent;
+            
+            piece1.style.left = fruit.style.left;
+            piece2.style.left = fruit.style.left;
+            piece1.style.bottom = getComputedStyle(fruit).bottom;
+            piece2.style.bottom = getComputedStyle(fruit).bottom;
+            
+            canvas.appendChild(piece1);
+            canvas.appendChild(piece2);
+            
+            setTimeout(() => {
+                piece1.remove();
+                piece2.remove();
+            }, 600);
+        } else {
+            // Bomb explosion effect
+            const explosion = document.createElement('div');
+            explosion.className = 'explosion-effect';
+            explosion.textContent = '💥';
+            explosion.style.left = fruit.style.left;
+            explosion.style.bottom = getComputedStyle(fruit).bottom;
+            canvas.appendChild(explosion);
+            setTimeout(() => explosion.remove(), 500);
+        }
+        
+        if (fruit.dataset.type === 'bomb') {
+            celebrateCharacter();
+            setTimeout(() => sadCharacter(), 100);
+            score = Math.max(0, score - 5);
+            updateStats();
+        } else {
+            sliced++;
+            score += 5;
+            updateStats();
+            celebrateCharacter();
+            
+            document.getElementById('fruitTarget').textContent = Math.max(0, target - sliced);
+            
+            if (sliced >= target) {
+                gameActive = false;
+                clearInterval(timerInterval);
+                clearInterval(spawnInterval);
+                setTimeout(() => endFruitGame(true), 500);
+            }
+        }
+        
+        setTimeout(() => fruit.remove(), 300);
+    }
+    
+    // Timer
+    const timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('fruitTimer').textContent = timeLeft;
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            gameActive = false;
+            endFruitGame(sliced >= target);
+        }
+    }, 1000);
+    
+    // Spawn fruits
+    const spawnInterval = setInterval(() => {
+        if (!gameActive) {
+            clearInterval(spawnInterval);
+            return;
+        }
+        
+        const isBomb = Math.random() < 0.15;
+        const emoji = isBomb ? bombs[0] : fruits[Math.floor(Math.random() * fruits.length)];
+        
+        const fruit = document.createElement('div');
+        fruit.className = 'fruit-item';
+        fruit.textContent = emoji;
+        fruit.style.left = Math.random() * 80 + 10 + '%';
+        fruit.dataset.type = isBomb ? 'bomb' : 'fruit';
+        
+        // Also allow clicking
+        fruit.addEventListener('click', function() {
+            sliceFruit(this);
+        });
+        
+        document.getElementById('fruitCanvas').appendChild(fruit);
+        
+        setTimeout(() => {
+            if (fruit.parentNode) fruit.remove();
+        }, 3000);
+        
+    }, 800 - (level * 50));
+    
+    window.fruitGameIntervals = { timer: timerInterval, spawn: spawnInterval };
+}
+
+function endFruitGame(won) {
+    if (window.fruitGameIntervals) {
+        clearInterval(window.fruitGameIntervals.timer);
+        clearInterval(window.fruitGameIntervals.spawn);
+    }
+    
+    document.querySelectorAll('.fruit-item').forEach(f => f.remove());
+    
+    setTimeout(() => showResult(won), 500);
 }
 
 // Initialize
