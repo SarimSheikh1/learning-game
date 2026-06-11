@@ -37,6 +37,192 @@ body.theme-galaxy {
     background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
 }
 
+body.theme-midnight {
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+}
+
+body.theme-darkblue {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+}
+
+body.theme-vampire {
+    background: linear-gradient(135deg, #360033 0%, #0b8793 100%);
+}
+
+body.theme-blackrose {
+    background: linear-gradient(135deg, #141e30 0%, #243b55 100%);
+}
+
+/* Theme-specific box colors */
+body.theme-purple .question-box,
+body.theme-purple .word-container,
+body.theme-purple .puzzle-container {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.theme-purple .question-text {
+    color: #667eea;
+}
+
+body.theme-ocean .question-box,
+body.theme-ocean .word-container,
+body.theme-ocean .puzzle-container {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.theme-ocean .question-text {
+    color: #4facfe;
+}
+
+body.theme-sunset .question-box,
+body.theme-sunset .word-container,
+body.theme-sunset .puzzle-container {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.theme-sunset .question-text {
+    color: #fa709a;
+}
+
+body.theme-forest .question-box,
+body.theme-forest .word-container,
+body.theme-forest .puzzle-container {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.theme-forest .question-text {
+    color: #56ab2f;
+}
+
+body.theme-candy .question-box,
+body.theme-candy .word-container,
+body.theme-candy .puzzle-container {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.theme-candy .question-text {
+    color: #fc466b;
+}
+
+body.theme-galaxy .question-box,
+body.theme-galaxy .word-container,
+body.theme-galaxy .puzzle-container {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.theme-galaxy .question-text {
+    color: #8e2de2;
+}
+
+/* Dark theme styles */
+body.theme-midnight .question-box,
+body.theme-midnight .word-container,
+body.theme-midnight .puzzle-container {
+    background: rgba(50, 52, 54, 0.95);
+    color: #ffffff;
+}
+
+body.theme-midnight .question-box h2,
+body.theme-midnight .word-container h2,
+body.theme-midnight .puzzle-container h2 {
+    color: #ffffff;
+}
+
+body.theme-midnight .question-text {
+    color: #00d9ff;
+}
+
+body.theme-midnight .option-btn {
+    background: rgba(100, 100, 100, 0.8);
+    color: #ffffff;
+    border-color: #555;
+}
+
+body.theme-midnight .option-btn:hover {
+    background: rgba(120, 120, 120, 0.9);
+}
+
+body.theme-darkblue .question-box,
+body.theme-darkblue .word-container,
+body.theme-darkblue .puzzle-container {
+    background: rgba(20, 50, 70, 0.95);
+    color: #ffffff;
+}
+
+body.theme-darkblue .question-box h2,
+body.theme-darkblue .word-container h2,
+body.theme-darkblue .puzzle-container h2 {
+    color: #ffffff;
+}
+
+body.theme-darkblue .question-text {
+    color: #00d9ff;
+}
+
+body.theme-darkblue .option-btn {
+    background: rgba(40, 80, 100, 0.8);
+    color: #ffffff;
+    border-color: #2c5364;
+}
+
+body.theme-darkblue .option-btn:hover {
+    background: rgba(60, 100, 120, 0.9);
+}
+
+body.theme-vampire .question-box,
+body.theme-vampire .word-container,
+body.theme-vampire .puzzle-container {
+    background: rgba(40, 20, 50, 0.95);
+    color: #ffffff;
+}
+
+body.theme-vampire .question-box h2,
+body.theme-vampire .word-container h2,
+body.theme-vampire .puzzle-container h2 {
+    color: #ffffff;
+}
+
+body.theme-vampire .question-text {
+    color: #0b8793;
+}
+
+body.theme-vampire .option-btn {
+    background: rgba(80, 40, 90, 0.8);
+    color: #ffffff;
+    border-color: #360033;
+}
+
+body.theme-vampire .option-btn:hover {
+    background: rgba(100, 60, 110, 0.9);
+}
+
+body.theme-blackrose .question-box,
+body.theme-blackrose .word-container,
+body.theme-blackrose .puzzle-container {
+    background: rgba(30, 45, 70, 0.95);
+    color: #ffffff;
+}
+
+body.theme-blackrose .question-box h2,
+body.theme-blackrose .word-container h2,
+body.theme-blackrose .puzzle-container h2 {
+    color: #ffffff;
+}
+
+body.theme-blackrose .question-text {
+    color: #5fa8d3;
+}
+
+body.theme-blackrose .option-btn {
+    background: rgba(50, 70, 100, 0.8);
+    color: #ffffff;
+    border-color: #243b55;
+}
+
+body.theme-blackrose .option-btn:hover {
+    background: rgba(70, 90, 120, 0.9);
+}
+
 #app {
     width: 100%;
     height: 100vh;
@@ -631,6 +817,7 @@ body.theme-galaxy {
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
     max-width: 600px;
+    padding: 20px;
 }
 
 .memory-card {
@@ -645,6 +832,7 @@ body.theme-galaxy {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
     position: relative;
+    min-height: 100px;
 }
 
 .memory-card::before {
@@ -652,6 +840,7 @@ body.theme-galaxy {
     position: absolute;
     font-size: 2em;
     color: #667eea;
+    font-weight: bold;
 }
 
 .memory-card.flipped::before {
@@ -660,13 +849,21 @@ body.theme-galaxy {
 
 .memory-card.flipped {
     background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-    transform: rotateY(180deg);
+    transform: rotateY(0deg);
+}
+
+.memory-card.flipped span {
+    display: block !important;
 }
 
 .memory-card.matched {
     background: #4CAF50;
     color: white;
     animation: matchPulse 0.5s ease;
+}
+
+.memory-card.matched::before {
+    display: none;
 }
 
 @keyframes matchPulse {
@@ -681,6 +878,176 @@ body.theme-galaxy {
     padding: 50px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     text-align: center;
+}
+
+/* Fruit Ninja Game */
+.fruit-game-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.fruit-timer, .fruit-target {
+    position: absolute;
+    top: 20px;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    padding: 10px 20px;
+    border-radius: 15px;
+    z-index: 10;
+}
+
+.fruit-timer {
+    left: 20px;
+}
+
+.fruit-target {
+    right: 20px;
+}
+
+.fruit-canvas {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+.slice-trail {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,0,0.6) 0%, rgba(255,255,0,0) 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 100;
+    box-shadow: 0 0 20px rgba(255,255,0,0.8);
+}
+
+.fruit-item {
+    position: absolute;
+    font-size: 4em;
+    cursor: pointer;
+    animation: fruitFloat 3s ease-out forwards;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.fruit-item:hover {
+    transform: scale(1.2);
+}
+
+.fruit-item.sliced {
+    animation: fruitSlice 0.3s ease-out forwards;
+}
+
+@keyframes fruitFloat {
+    0% {
+        bottom: -100px;
+        transform: rotate(0deg);
+    }
+    50% {
+        bottom: 70%;
+        transform: rotate(180deg);
+    }
+    100% {
+        bottom: -100px;
+        transform: rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fruitSlice {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+.slice-mark {
+    position: absolute;
+    font-size: 5em;
+    font-weight: bold;
+    color: #ffff00;
+    text-shadow: 0 0 20px #ffff00, 0 0 40px #ffff00;
+    animation: sliceMarkFade 0.5s ease-out forwards;
+    pointer-events: none;
+    z-index: 50;
+}
+
+@keyframes sliceMarkFade {
+    0% {
+        opacity: 1;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2);
+    }
+}
+
+.fruit-piece {
+    position: absolute;
+    font-size: 3em;
+    pointer-events: none;
+    z-index: 40;
+}
+
+.fruit-piece:nth-child(odd) {
+    animation: pieceFlyLeft 0.6s ease-out forwards;
+}
+
+.fruit-piece:nth-child(even) {
+    animation: pieceFlyRight 0.6s ease-out forwards;
+}
+
+@keyframes pieceFlyLeft {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-100px, 150px) rotate(-180deg);
+        opacity: 0;
+    }
+}
+
+@keyframes pieceFlyRight {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(100px, 150px) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+.explosion-effect {
+    position: absolute;
+    font-size: 6em;
+    animation: explode 0.5s ease-out forwards;
+    pointer-events: none;
+    z-index: 60;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
 }
 
 .pattern-row {
